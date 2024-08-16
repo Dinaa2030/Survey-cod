@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Survey Form Builder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="tel"], select, input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #previewArea {
+            margin-top: 20px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        .action-buttons {
+            margin-top: 10px;
+        }
+        .action-buttons button {
+            background-color: #f39c12;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Custom Survey Form Builder</h1>
+        
+        <div class="form-group">
+            <label for="surveyTitle">Survey Title:</label>
+            <input type="text" id="surveyTitle" required>
+        </div>
+        
+        <div id="formBuilder">
+            <h2>Add Question</h2>
+            <div class="form-group">
+                <label for="questionType">Question Type:</label>
+                <select id="questionType">
+                    <option value="text">Text</option>
+                    <option value="number">Number</option>
+                    <option value="radio">Multiple Choice</option>
+                    <option value="checkbox">Checkbox</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="questionText">Question Text:</label>
+                <input type="text" id="questionText" required>
+            </div>
+            <div id="optionsArea" style="display:none;">
+                <div class="form-group">
+                    <label for="options">Options (comma-separated):</label>
+                    <input type="text" id="options">
+                </div>
+            </div>
+            <button onclick="addQuestion()">Add Question</button>
+        </div>
+
+        <div id="previewArea">
+            <form id="surveyPreview"></form>
+        </div>
+    </div>
+
+    <script>
+        let questions = [];
+
+        function addQuestion() {
+            const title = document.getElementById('surveyTitle').value.trim();
+            const type = document.getElementById('questionType').value;
+            const text = document.getElementById('questionText').value.trim();
+            const options = document.getElementById('options').value.split(',').map(opt => opt.trim());
+
+            if (!title) {
+                alert('Please enter the survey title before adding questions.');
+                return;
+            }
+
+            if (!text) {
+                alert('Please enter question text');
+                return;
+            }
+
+            questions.push({ type, text, options });
+            updatePreview();
+            clearInputs();
+        }
+
+        function updatePreview() {
+            const preview = document.getElementById('surveyPreview');
+            preview.innerHTML = '';
+
+            const titleDiv = document.createElement('div');
+            titleDiv.className = 'form-group';
+            const titleLabel = document.createElement('h3');
+            titleLabel.textContent = document.getElementById('surveyTitle').value;
+            titleDiv.appendChild(titleLabel);
+            preview.appendChild(titleDiv);
+
+            questions.forEach((q, index) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = 'form-group';
+                
+                const label = document.createElement('label');
+                label.textContent = q.text;
+                qDiv.appendChild(label);
+
+                switch(q.type) {
+                    case 'text':
+                    case 'number':
+                        const input = document.createElement('input');
+                        input.type = q.type;
+                        input.name = `question_${index}`;
+                        qDiv.appendChild(input);
+                        break;
+                    case 'radio':
+                    case 'checkbox':
+                        q.options.forEach((opt, i) => {
+                            const optionInput = document.createElement('input');
+                            optionInput.type = q.type;
+                            optionInput.name = `question_${index}`;
+                            optionInput.value = opt;
+                            optionInput.id = `q${index}_opt${i}`;
+
+                            const optionLabel = document.createElement('label');
+                            optionLabel.textContent = opt;
+                            optionLabel.htmlFor = `q${index}_opt${i}`;
+
+                            qDiv.appendChild(optionInput);
+                            qDiv.appendChild(optionLabel);
+                        });
+                        break;
+                }
+
+                const actionButtons = document.createElement('div');
+                actionButtons.className = 'action-buttons';
+
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Edit';
+                editButton.type = 'button';
+                editButton.onclick = function() { editQuestion(index); };
+                actionButtons.appendChild(editButton);
+
+                qDiv.appendChild(actionButtons);
+
+                preview.appendChild(qDiv);
+            });
+
+            if (questions.length > 0) {
+                const submitBtn = document.createElement('button');
+                submitBtn.textContent = 'Submit Survey';
+                submitBtn.type = 'button';
+                submitBtn.onclick = function() { submitSurvey(); };
+                preview.appendChild(submitBtn);
+            }
+        }
+
+        function clearInputs() {
+            document.getElementById('questionText').value = '';
+            document.getElementById('options').value = '';
+        }
+
+        document.getElementById('questionType').addEventListener('change', function() {
+            const optionsArea = document.getElementById('optionsArea');
+            optionsArea.style.display = (this.value === 'radio' || this.value === 'checkbox') ? 'block' : 'none';
+        });
+
+        function editQuestion(index) {
+            const question = questions[index];
+            document.getElementById('questionType').value = question.type;
+            document.getElementById('questionText').value = question.text;
+            document.getElementById('options').value = question.options.join(', ');
+            questions.splice(index, 1);
+            updatePreview();
+        }
+
+        function submitSurvey() {
+            const surveyTitle = document.getElementById('surveyTitle').value;
+            const surveyData = { title: surveyTitle, questions };
+
+            localStorage.setItem('surveyData', JSON.stringify(surveyData));
+
+            window.location.href = 'surveypage.html';
+        }
+    </script>
+</body>
+</html>

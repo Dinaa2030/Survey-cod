@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surveys</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+        h1 {
+            color: #333;
+        }
+        .survey-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        .survey-item {
+            background-color: #eee;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .survey-item h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .survey-item button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .survey-item button:hover {
+            background-color: #45a049;
+        }
+        .survey-item .results-btn {
+            background-color: #333;
+        }
+        .survey-item .results-btn:hover {
+            background-color: #555;
+        }
+        .survey-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+        .survey-info img {
+            width: 16px;
+            height: 16px;
+            margin-right: 5px;
+        }
+        .admin-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .admin-buttons button {
+            width: 48%;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .admin-buttons button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Surveys</h1>
+        <div class="survey-grid" id="surveyList">
+            
+        </div>
+    </div>
+
+    <script>
+    
+        const surveys = [
+            { title: "Survey 1", link: "survey1.html", resultsLink: "results.html", participants: 150 },
+            { title: "Survey 2", link: "survey2.html", resultsLink: "results.html", participants: 200 },
+            { title: "Survey 3", link: "survey3.html", resultsLink: "results.html", participants: 120 },
+            { title: "Survey 4", link: "survey4.html", resultsLink: "results.html", participants: 300 },
+            { title: "Survey 5", link: "survey5.html", resultsLink: "results.html", participants: 175 },
+            { title: "Survey 6", link: "survey6.html", resultsLink: "results.html", participants: 90 }
+        ];
+
+        const surveyList = document.getElementById('surveyList');
+
+        surveys.forEach(survey => {
+            const surveyItem = document.createElement('div');
+            surveyItem.className = 'survey-item';
+
+            const surveyTitle = document.createElement('h2');
+            surveyTitle.textContent = survey.title;
+            surveyItem.appendChild(surveyTitle);
+
+            const startButton = document.createElement('button');
+            startButton.textContent = 'Start';
+            startButton.onclick = () => {
+                window.location.href = survey.link;
+            };
+            surveyItem.appendChild(startButton);
+
+            const resultsButton = document.createElement('button');
+            resultsButton.textContent = 'Results';
+            resultsButton.className = 'results-btn';
+            resultsButton.onclick = () => {
+                window.location.href = `${survey.resultsLink}?title=${encodeURIComponent(survey.title)}`;
+            };
+            surveyItem.appendChild(resultsButton);
+
+            
+            const surveyInfo = document.createElement('div');
+            surveyInfo.className = 'survey-info';
+
+            const participantCount = document.createElement('div');
+            participantCount.innerHTML = `<img src="https://img.icons8.com/ios-glyphs/30/000000/user.png" alt="participant icon"> Number of participants: ${survey.participants}`;
+            surveyInfo.appendChild(participantCount);
+
+            surveyItem.appendChild(surveyInfo);
+
+            const adminButtons = document.createElement('div');
+            adminButtons.className = 'admin-buttons';
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.style.backgroundColor = '#45a049';
+            deleteButton.onclick = () => {
+                surveyItem.remove(); 
+                alert('Survey deleted!');
+            };
+            adminButtons.appendChild(deleteButton);
+
+            const downloadButton = document.createElement('button');
+            downloadButton.textContent = 'Download Data';
+            downloadButton.onclick = () => {
+                alert('Data downloaded for survey: ' + survey.title);
+            };
+            adminButtons.appendChild(downloadButton);
+
+            surveyItem.appendChild(adminButtons);
+            surveyList.appendChild(surveyItem);
+        });
+
+        const isAdmin = true;
+        function addAdminButtons() {
+            if (!isAdmin) return;
+            const surveyItems = document.querySelectorAll('.survey-item');
+
+            surveyItems.forEach((item, index) => {
+                const adminButtons = item.querySelector('.admin-buttons');
+                adminButtons.style.display = 'flex';
+            });
+        }
+
+        window.onload = function() {
+            addAdminButtons();
+        };
+    </script>
+</body>
+</html>

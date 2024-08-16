@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>surveys result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+        h1 {
+            color: #333;
+        }
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        .result-item {
+            background-color: #eee;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .result-item h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .chart-container {
+            width: 100%;
+            height: 300px;
+            margin: 0 auto;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1 id="surveyTitle">Survey Results</h1>
+        <div class="results-grid" id="resultsGrid">
+          
+        </div>
+    </div>
+
+    <script>
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const surveyTitle = urlParams.get('title');
+
+        
+        if (surveyTitle) {
+            document.getElementById('surveyTitle').textContent = `Results for: ${surveyTitle}`;
+        }
+
+        
+        const results = [
+            { question: "question 1", data: [60, 30, 10] },
+            { question: "question 2", data: [50, 20, 30] },
+            { question: "question 3", data: [70, 20, 10] },
+            { question: "question 4", data: [40, 40, 20] },
+            { question: "question 5", data: [80, 10, 10] },
+            { question: "question 6", data: [30, 50, 20] }
+        ];
+
+        const resultsGrid = document.getElementById('resultsGrid');
+
+        results.forEach((result, index) => {
+            const resultItem = document.createElement('div');
+            resultItem.className = 'result-item';
+
+            const resultTitle = document.createElement('h2');
+            resultTitle.textContent = result.question;
+            resultItem.appendChild(resultTitle);
+
+            const chartContainer = document.createElement('div');
+            chartContainer.className = 'chart-container';
+            chartContainer.id = 'chart' + index;
+            resultItem.appendChild(chartContainer);
+
+            resultsGrid.appendChild(resultItem);
+
+            const ctx = document.getElementById('chart' + index).getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Choice 1', 'Choice 2', 'Choice 3'],
+                    datasets: [{
+                        data: result.data,
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.label + ': ' + tooltipItem.raw + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
