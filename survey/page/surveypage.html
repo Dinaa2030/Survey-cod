@@ -80,9 +80,11 @@
     </div>
 
     <script>
-        
+        //Retrieve data from localstorage
+
         const surveyData = JSON.parse(localStorage.getItem('surveyData'));
 
+        //Check survey availability
         if (surveyData) {
            
             document.getElementById('surveyTitle').textContent = surveyData.title;
@@ -99,8 +101,9 @@
 
                 const optionsDiv = document.createElement('div');
                 optionsDiv.className = 'options';
-
-                switch(q.type) {
+                
+//Check question type and entry
+               switch(q.type) {
                     case 'text':
                     case 'number':
                         const input = document.createElement('input');
@@ -119,8 +122,7 @@
 
                             const optionLabel = document.createElement('label');
                             optionLabel.textContent = opt;
-                            optionLabel.htmlFor = `q${index}_opt${i}`;
-
+                            optionLabel.htmlFor = `q${index}_opt${i}`; //Link the label to the option
                             optionsDiv.appendChild(optionInput);
                             optionsDiv.appendChild(optionLabel);
                         });
@@ -130,7 +132,7 @@
                 qDiv.appendChild(optionsDiv);
                 surveyForm.appendChild(qDiv);
             });
-
+//Submit button
             const submitBtn = document.createElement('button');
             submitBtn.textContent = 'Submit';
             submitBtn.type = 'submit';
