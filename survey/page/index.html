@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحة رئيسية</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .menu {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            background-color: #0b4e67;
+            color: #fff;
+            border-radius: 8px;
+        }
+        .menu li {
+            padding: 15px 20px;
+        }
+        .menu li a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+        }
+        .menu li a:hover {
+            background-color: #0b4e67;
+        }
+        .submenu {
+            display: none;
+            position: absolute;
+            background-color: #153540;
+            border-radius: 8px;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .submenu li {
+            padding: 10px 15px;
+        }
+        .submenu li a {
+            color: #fff;
+        }
+        .menu li:hover .submenu {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <ul class="menu">
+            <li><a href="#">زاوية الصحة</a></li>
+            <li><a href="#">الصفحه الرئيسيه</a></li>
+            <li><a href="#">نبذه عنا</a></li>
+            <li><a href="#">المجتمع</a></li>
+            <li><a href="#">الاستبيانات</a>
+                <ul class="submenu">
+                    <li><a href="createsurvey.html">استبيان جديد</a></li>
+                    <li><a href="Surveys.html">الاستبيانات</a></li>
+                </ul>
+            </li>
+            <li><a href="#">coaches</a></li>
+        </ul>
+    </div>
+</body>
+</html>
