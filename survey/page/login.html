@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .login-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0b4e67;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .login-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #0b4e67;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .login-btn {
+            width: 100%;
+            background-color: #0b4e67;
+            color: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        .login-btn:hover {
+            background-color: #084b5f;
+        }
+        .login-links {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .login-links a {
+            color: #0b4e67;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .login-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="login-title">تسجيل الدخول</div>
+
+        <form id="loginForm">
+            <input type="text" id="username" class="login-input" placeholder="اسم المستخدم" required>
+            <input type="password" id="password" class="login-input" placeholder="كلمة المرور" required>
+            <select id="userType" class="login-input" required>
+                <option value="user">مستخدم</option>
+                <option value="admin">مسؤول</option>
+            </select>
+            <button type="submit" class="login-btn">تسجيل الدخول</button>
+        </form>
+
+        <div class="login-links">
+            <a href="#">هل نسيت كلمة المرور؟</a><br>
+            <a href="#">إنشاء حساب جديد</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            var userType = document.getElementById('userType').value;
+            if (userType === 'admin') {
+                alert('مرحبًا بك أيها المسؤول ' + username);
+                window.location.href = "admin_dashboard.html";
+            } else {
+                alert('مرحبًا بك أيها المستخدم ' + username);
+                window.location.href = "user_dashboard.html";
+            }
+        });
+    </script>
+</body>
+</html>
