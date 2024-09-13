@@ -4,42 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>صفحة رئيسية</title>
-
+    
     <style>
         body {
-            font-family:Arial, Helvetica, sans-serif;
+            font-family: 'Arial', Helvetica, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
         }
 
         .container {
-            width: 100%;
+            max-width: 1200px;
             margin: 0 auto;
-            background-color: #fff;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         .logo {
-            font-size: 24px;
-            font-weight: bold;
+            font-size: 28px;
             color: #0b4e67;
-            margin-bottom: 10px;
+            font-weight: 700;
+            margin-bottom: 20px;
         }
 
         .menu {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            list-style: none;
-            padding: 0;
-            margin: 0;
             background-color: #0b4e67;
-            color: #fff;
+            padding: 10px 20px;
             border-radius: 8px;
-            font-weight: bold;
+            list-style: none;
+            margin: 0;
         }
 
         .menu-right {
@@ -47,18 +45,21 @@
         }
 
         .menu li {
-            padding: 15px 20px;
             position: relative;
+            padding: 15px;
         }
 
         .menu li a {
             color: #fff;
             text-decoration: none;
-            display: block;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
         }
 
         .menu li a:hover {
             background-color: #084b5f;
+            border-radius: 8px;
         }
 
         .submenu {
@@ -67,21 +68,21 @@
             top: 100%;
             right: 0;
             background-color: #fff;
-            color: #000;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             list-style: none;
             padding: 10px 0;
             margin: 0;
-            width: 200px;
+            min-width: 200px;
         }
 
         .submenu li {
-            padding: 10px 20px;
+            padding: 10px;
         }
 
         .submenu li a {
             color: #0b4e67;
+            font-size: 14px;
         }
 
         .submenu li a:hover {
@@ -99,16 +100,40 @@
         .login-btn {
             background-color: #0b4e67;
             color: #0b4e67;
+            border: 2px solid #0b4e67;
             padding: 10px 20px;
             border-radius: 8px;
-            text-decoration: none;
             font-weight: bold;
-            border: 2px solid #0b4e67;
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .login-btn:hover {
             background-color: #0b4e67;
             color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .menu {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .menu-right {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .menu li {
+                width: 100%;
+                text-align: right;
+            }
+
+            .login-btn {
+                width: 100%;
+                text-align: center;
+                margin-top: 10px;
+            }
         }
     </style>
 </head>
@@ -116,19 +141,21 @@
    
     <div class="container">
         <div class="logo">زاوية الصحة</div>
+        
         <ul class="menu">
             <div class="menu-right">
-                <li><a href="#">الصفحه الرئيسيه</a></li>
+                <li><a href="index.html">الصفحه الرئيسيه</a></li>
                 <li><a href="#">نبذه عنا</a></li>
                 <li><a href="#">المجتمع</a></li>
                 <li><a href="#">الاستبيانات</a>
                     <ul class="submenu">
-                        <li class="admin-only"><a href="createsurvey.html">انشئ استبيان </a></li>
+                        <li class="admin-only"><a href="createsurvey.html">انشئ استبيان</a></li>
                         <li><a href="Surveys.html">الاستبيانات</a></li>
                     </ul>
                 </li>
                 <li><a href="#">المدربون</a></li>
             </div>
+
             <li><a href="login.html" class="login-btn">تسجيل الدخول</a></li>
         </ul>
     </div>
