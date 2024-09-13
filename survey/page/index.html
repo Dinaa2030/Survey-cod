@@ -4,27 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>صفحة رئيسية</title>
+
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family:Arial, Helvetica, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
         }
+
         .container {
             width: 100%;
             margin: 0 auto;
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
         }
+
         .logo {
             font-size: 24px;
             font-weight: bold;
             color: #0b4e67;
             margin-bottom: 10px;
         }
+
         .menu {
             display: flex;
             justify-content: space-between;
@@ -37,21 +41,26 @@
             border-radius: 8px;
             font-weight: bold;
         }
+
         .menu-right {
             display: flex;
         }
+
         .menu li {
             padding: 15px 20px;
             position: relative;
         }
+
         .menu li a {
             color: #fff;
             text-decoration: none;
             display: block;
         }
+
         .menu li a:hover {
             background-color: #084b5f;
         }
+
         .submenu {
             display: none;
             position: absolute;
@@ -66,21 +75,27 @@
             margin: 0;
             width: 200px;
         }
+
         .submenu li {
             padding: 10px 20px;
         }
+
         .submenu li a {
             color: #0b4e67;
         }
+
         .submenu li a:hover {
             background-color: #f4f4f4;
         }
+
         .menu li:hover .submenu {
             display: block;
         }
+
         .admin-only {
             display: none;
         }
+
         .login-btn {
             background-color: #0b4e67;
             color: #0b4e67;
@@ -90,6 +105,7 @@
             font-weight: bold;
             border: 2px solid #0b4e67;
         }
+
         .login-btn:hover {
             background-color: #0b4e67;
             color: #fff;
@@ -97,6 +113,7 @@
     </style>
 </head>
 <body>
+   
     <div class="container">
         <div class="logo">زاوية الصحة</div>
         <ul class="menu">
@@ -106,7 +123,7 @@
                 <li><a href="#">المجتمع</a></li>
                 <li><a href="#">الاستبيانات</a>
                     <ul class="submenu">
-                        <li class="admin-only"><a href="createsurvey.html">استبيان جديد</a></li>
+                        <li class="admin-only"><a href="createsurvey.html">انشئ استبيان </a></li>
                         <li><a href="Surveys.html">الاستبيانات</a></li>
                     </ul>
                 </li>
@@ -115,8 +132,10 @@
             <li><a href="login.html" class="login-btn">تسجيل الدخول</a></li>
         </ul>
     </div>
+
     <script>
         var isAdmin = true;
+
         if (isAdmin) {
             document.querySelectorAll('.admin-only').forEach(function(el) {
                 el.style.display = 'block';
