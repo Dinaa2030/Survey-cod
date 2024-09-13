@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surveys</title>
+    <title>الاستبيانات</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -87,21 +87,18 @@
 </head>
 <body>
     <div class="container">
-        <h1>Surveys</h1>
-        <div class="survey-grid" id="surveyList">
-            
-        </div>
+        <h1>الاستبيانات</h1>
+        <div class="survey-grid" id="surveyList"></div>
     </div>
 
     <script>
-    
         const surveys = [
-            { title: "Survey 1", link: "survey1.html", resultsLink: "results.html", participants: 150 },
-            { title: "Survey 2", link: "survey2.html", resultsLink: "results.html", participants: 200 },
-            { title: "Survey 3", link: "survey3.html", resultsLink: "results.html", participants: 120 },
-            { title: "Survey 4", link: "survey4.html", resultsLink: "results.html", participants: 300 },
-            { title: "Survey 5", link: "survey5.html", resultsLink: "results.html", participants: 175 },
-            { title: "Survey 6", link: "survey6.html", resultsLink: "results.html", participants: 90 }
+            { title: "الاستبيان 1", link: "survey1.html", resultsLink: "results.html", participants: 150 },
+            { title: "الاستبيان 2", link: "survey2.html", resultsLink: "results.html", participants: 200 },
+            { title: "الاستبيان 3", link: "survey3.html", resultsLink: "results.html", participants: 120 },
+            { title: "الاستبيان 4", link: "survey4.html", resultsLink: "results.html", participants: 300 },
+            { title: "الاستبيان 5", link: "survey5.html", resultsLink: "results.html", participants: 175 },
+            { title: "الاستبيان 6", link: "survey6.html", resultsLink: "results.html", participants: 90 }
         ];
 
         const surveyList = document.getElementById('surveyList');
@@ -115,44 +112,41 @@
             surveyItem.appendChild(surveyTitle);
 
             const startButton = document.createElement('button');
-            startButton.textContent = 'Start';
+            startButton.textContent = 'ابدء';
             startButton.onclick = () => {
                 window.location.href = survey.link;
             };
             surveyItem.appendChild(startButton);
 
             const resultsButton = document.createElement('button');
-            resultsButton.textContent = 'Results';
+            resultsButton.textContent = 'النتائج';
             resultsButton.className = 'results-btn';
             resultsButton.onclick = () => {
                 window.location.href = `${survey.resultsLink}?title=${encodeURIComponent(survey.title)}`;
             };
             surveyItem.appendChild(resultsButton);
 
-            
             const surveyInfo = document.createElement('div');
             surveyInfo.className = 'survey-info';
-
             const participantCount = document.createElement('div');
-            participantCount.innerHTML = `<img src="https://img.icons8.com/ios-glyphs/30/000000/user.png" alt="participant icon"> Number of participants: ${survey.participants}`;
+            participantCount.innerHTML = `<img src="https://img.icons8.com/ios-glyphs/30/000000/user.png" alt="participant icon"> عدد المشاركين: ${survey.participants}`;
             surveyInfo.appendChild(participantCount);
-
             surveyItem.appendChild(surveyInfo);
 
             const adminButtons = document.createElement('div');
             adminButtons.className = 'admin-buttons';
 
             const deleteButton = document.createElement('button');
-            deleteButton.textContent = 'Delete';
+            deleteButton.textContent = 'حذف';
             deleteButton.style.backgroundColor = '#45a049';
             deleteButton.onclick = () => {
-                surveyItem.remove(); 
+                surveyItem.remove();
                 alert('Survey deleted!');
             };
             adminButtons.appendChild(deleteButton);
 
             const downloadButton = document.createElement('button');
-            downloadButton.textContent = 'Download Data';
+            downloadButton.textContent = 'تحميل البيانات';
             downloadButton.onclick = () => {
                 alert('Data downloaded for survey: ' + survey.title);
             };
@@ -163,11 +157,12 @@
         });
 
         const isAdmin = true;
+
         function addAdminButtons() {
             if (!isAdmin) return;
-            const surveyItems = document.querySelectorAll('.survey-item');
 
-            surveyItems.forEach((item, index) => {
+            const surveyItems = document.querySelectorAll('.survey-item');
+            surveyItems.forEach((item) => {
                 const adminButtons = item.querySelector('.admin-buttons');
                 adminButtons.style.display = 'flex';
             });
