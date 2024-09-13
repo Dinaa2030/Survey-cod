@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom Survey Form Builder</title>
+    <title> انشاء استبيان </title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -64,19 +64,22 @@
     </style>
 </head>
 <body>
-   
+    <script>
+        const isAdmin = true;
+        if (!isAdmin) {
+            window.location.href = 'access_denied.html';
+        }
+    </script>
     <div class="container">
-        <h1>Custom Survey Form Builder</h1>
-        
+        <h1> انشاء استبيان </h1>
         <div class="form-group">
-            <label for="surveyTitle">Survey Title:</label>
+            <label for="surveyTitle">عنوان الاستبيان:</label>
             <input type="text" id="surveyTitle" required>
         </div>
-        
         <div id="formBuilder">
-            <h2>Add Question</h2>
+            <h2>اضف سؤال</h2>
             <div class="form-group">
-                <label for="questionType">Question Type:</label>
+                <label for="questionType">نوع السؤال :</label>
                 <select id="questionType">
                     <option value="text">Text</option>
                     <option value="number">Number</option>
@@ -85,18 +88,17 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="questionText">Question Text:</label>
+                <label for="questionText">نص السؤال:</label>
                 <input type="text" id="questionText" required>
             </div>
             <div id="optionsArea" style="display:none;">
                 <div class="form-group">
-                    <label for="options">Options (comma-separated):</label>
+                    <label for="options">الخيارات:</label>
                     <input type="text" id="options">
                 </div>
             </div>
-            <button onclick="addQuestion()">Add Question</button>
+            <button onclick="addQuestion()">اضافه سؤال</button>
         </div>
-
         <div id="previewArea">
             <form id="surveyPreview"></form>
         </div>
@@ -176,7 +178,7 @@
                 actionButtons.className = 'action-buttons';
 
                 const editButton = document.createElement('button');
-                editButton.textContent = 'Edit';
+                editButton.textContent = 'تعديل';
                 editButton.type = 'button';
                 editButton.onclick = function() { editQuestion(index); };
                 actionButtons.appendChild(editButton);
@@ -188,7 +190,7 @@
 
             if (questions.length > 0) {
                 const submitBtn = document.createElement('button');
-                submitBtn.textContent = 'Submit Survey';
+                submitBtn.textContent = 'ارسال الاستبيان';
                 submitBtn.type = 'button';
                 submitBtn.onclick = function() { submitSurvey(); };
                 preview.appendChild(submitBtn);
@@ -219,7 +221,6 @@
             const surveyData = { title: surveyTitle, questions };
 
             localStorage.setItem('surveyData', JSON.stringify(surveyData));
-
             window.location.href = 'surveypage.html';
         }
     </script>
