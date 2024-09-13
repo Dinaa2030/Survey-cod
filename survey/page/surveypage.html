@@ -3,136 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>survey page</title>
+    <title>احصائيات</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
             padding: 20px;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            font-size: 2em;
-            color: #333;
             text-align: center;
-            margin-bottom: 50px;
         }
-
-        .form-group {
-            margin-bottom: 0;
+        .container {
+            max-width: 900px;
+            margin: auto;
         }
-
-        .question-title {
-            background-color: #0b4e67;
-            color: white;
-            padding: 15px;
-            font-size: 1.2em;
-            margin: 0;
-        }
-
-        .options {
-            padding: 15px;
-            font-size: 1.1em;
+        h1 {
             color: #333;
         }
-
-        label {
-            display: block;
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        .result-item {
+            background-color: #eee;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .result-item h2 {
+            font-size: 18px;
             margin-bottom: 10px;
         }
-
-        input[type="radio"] {
-            margin-right: 10px;
-            margin-bottom: 10px;
-        }
-
-        button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-        }
-
-        button:hover {
-            background-color: #45a049;
+        .chart-container {
+            width: 100%;
+            height: 300px;
+            margin: 0 auto;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
 <body>
     <div class="container">
-        <h1 id="surveyTitle"></h1>
-        <form id="surveyForm"></form>
+        <h1 id="surveyTitle">احصائيات الاستبيان</h1>
+        <div class="results-grid" id="resultsGrid"></div>
     </div>
 
     <script>
-        const surveyData = JSON.parse(localStorage.getItem('surveyData'));
+        const urlParams = new URLSearchParams(window.location.search);
+        const surveyTitle = urlParams.get('title');
 
-        if (surveyData) {
-            document.getElementById('surveyTitle').textContent = surveyData.title;
-            const surveyForm = document.getElementById('surveyForm');
-
-            surveyData.questions.forEach((q, index) => {
-                const qDiv = document.createElement('div');
-                qDiv.className = 'form-group';
-
-                const label = document.createElement('div');
-                label.className = 'question-title';
-                label.textContent = q.text;
-                qDiv.appendChild(label);
-
-                const optionsDiv = document.createElement('div');
-                optionsDiv.className = 'options';
-                
-                switch(q.type) {
-                    case 'text':
-                    case 'number':
-                        const input = document.createElement('input');
-                        input.type = q.type;
-                        input.name = `question_${index}`;
-                        optionsDiv.appendChild(input);
-                        break;
-                    case 'radio':
-                    case 'checkbox':
-                        q.options.forEach((opt, i) => {
-                            const optionInput = document.createElement('input');
-                            optionInput.type = q.type;
-                            optionInput.name = `question_${index}`;
-                            optionInput.value = opt;
-                            optionInput.id = `q${index}_opt${i}`;
-
-                            const optionLabel = document.createElement('label');
-                            optionLabel.textContent = opt;
-                            optionLabel.htmlFor = `q${index}_opt${i}`;
-                            optionsDiv.appendChild(optionInput);
-                            optionsDiv.appendChild(optionLabel);
-                        });
-                        break;
-                }
-
-                qDiv.appendChild(optionsDiv);
-                surveyForm.appendChild(qDiv);
-            });
-
-            const submitBtn = document.createElement('button');
-            submitBtn.textContent = 'ارسال';
-            submitBtn.type = 'submit';
-            surveyForm.appendChild(submitBtn);
+        if (surveyTitle) {
+            document.getElementById('surveyTitle').textContent = `Results for: ${surveyTitle}`;
         }
+
+        const results = [
+            { question: "السؤال 1", data: [60, 30, 10] },
+            { question: "السؤال 2", data: [50, 20, 30] },
+            { question: "السؤال 3", data: [70, 20, 10] },
+            { question: "السؤال 4", data: [40, 40, 20] },
+            { question: "السؤال 5", data: [80, 10, 10] },
+            { question: "السؤال 6", data: [30, 50, 20] }
+        ];
+
+        const resultsGrid = document.getElementById('resultsGrid');
+
+        results.forEach((result, index) => {
+            const resultItem = document.createElement('div');
+            resultItem.className = 'result-item';
+
+            const resultTitle = document.createElement('h2');
+            resultTitle.textContent = result.question;
+            resultItem.appendChild(resultTitle);
+
+            const chartContainer = document.createElement('div');
+            chartContainer.className = 'chart-container';
+            chartContainer.id = 'chart' + index;
+            resultItem.appendChild(chartContainer);
+
+            resultsGrid.appendChild(resultItem);
+
+            const ctx = document.getElementById('chart' + index).getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Choice 1', 'Choice 2', 'Choice 3'],
+                    datasets: [{
+                        data: result.data,
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.label + ': ' + tooltipItem.raw + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>
